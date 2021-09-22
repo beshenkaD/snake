@@ -1,0 +1,19 @@
+{
+	"authors": [
+		"beshenka"
+	],
+
+	"copyright": "Copyright © 2021, beshenka",
+
+	"dependencies": {
+		"ncurses": "~>0.0.149"
+	},
+
+    "subConfigurations": {
+        "ncurses": "full"
+    },
+
+	"description": "cool game",
+	"license": "GPL-3.0",
+	"name": "snake"
+}
