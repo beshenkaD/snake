@@ -1,19 +1,39 @@
 {
+	"description": "cool game",
+	"license": "GPL-3.0",
+	"name": "snake",
 	"authors": [
 		"beshenka"
 	],
-
 	"copyright": "Copyright © 2021, beshenka",
 
-	"dependencies": {
-		"ncurses": "~>0.0.149"
-	},
+    "configurations": [
+        {
+            "name": "SDL",
+            "targetType": "executable",
+            "libs": ["SDL2", "SDL2_image"],
+            "versions": ["SDLFrontend", "SDL_Image"],
 
-    "subConfigurations": {
-        "ncurses": "full"
-    },
+            "dependencies": {
+                "bindbc-sdl": "~>1.0.1"
+            },
+            "subConfigurations": {
+                "bindbc-sdl": "static"
+            }
+        },
+        {
+            "name": "ncurses",
+            "targetType": "executable",
+            "libs": ["ncurses"],
+            "versions": ["NcursesFrontend"],
 
-	"description": "cool game",
-	"license": "GPL-3.0",
-	"name": "snake"
+            "dependencies": {
+                "ncurses": "~>0.0.149"
+            },
+
+            "subConfigurations": {
+                "ncurses": "full"
+            }
+        }
+    ]
 }
