@@ -47,6 +47,14 @@ version (SDLFrontend)
             this.border = loadTexture(`border.png`);
         }
 
+        private void destroyResources()
+        {
+            SDL_DestroyTexture(snakeHead);
+            SDL_DestroyTexture(snakeBody);
+            SDL_DestroyTexture(fruit);
+            SDL_DestroyTexture(border);
+        }
+
         this()
         {
             IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
@@ -80,7 +88,10 @@ version (SDLFrontend)
 
         ~this()
         {
-
+            SDL_DestroyRenderer(this.renderer);
+            SDL_DestroyWindow(this.window);
+            destroyResources();
+            SDL_Quit();
         }
 
         bool welcome()
@@ -99,6 +110,7 @@ version (SDLFrontend)
 
         void updateScreen(ref Game.Field f)
         {
+            SDL_GetKeyboardState(null);
             // SDL_SetRenderDrawColor(this.renderer, 96, 128, 255, 255);
             SDL_RenderClear(this.renderer);
 
