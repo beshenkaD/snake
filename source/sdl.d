@@ -101,6 +101,7 @@ version (SDLFrontend)
 
         void gameOver(int score)
         {
+            io.writeln(`Game over! Your score: `, score);
             return;
         }
 
@@ -110,7 +111,6 @@ version (SDLFrontend)
 
         void updateScreen(ref Game.Field f)
         {
-            SDL_GetKeyboardState(null);
             // SDL_SetRenderDrawColor(this.renderer, 96, 128, 255, 255);
             SDL_RenderClear(this.renderer);
 

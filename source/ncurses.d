@@ -97,7 +97,7 @@ version (NcursesFrontend)
         Game.Direction getDirection()
         {
             nodelay(stdscr, true);
-            timeout(50);
+            timeout(0);
 
             switch (getch())
             {

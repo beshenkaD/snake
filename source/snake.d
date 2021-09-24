@@ -221,7 +221,7 @@ class Game
         import core.thread;
 
         int score = 0;
-        int delay = 100;
+        int delay = 150;
         bool gameOver = false;
 
         while (!gameOver)
@@ -273,21 +273,15 @@ class Game
 
                 // Make game faster
                 if (score % 50 == 0 && (delay - 5) != 0)
-                {
                     delay -= 5;
-                }
             }
 
-            // Right
             if (head.x >= width - 1)
                 gameOver = true;
-            // Top
             if (head.x <= 0)
                 gameOver = true;
-            // Left
             if (head.y <= 0)
                 gameOver = true;
-            // Bottom
             if (head.y >= height - 1)
                 gameOver = true;
 
