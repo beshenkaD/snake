@@ -7,33 +7,14 @@
 	],
 	"copyright": "Copyright © 2021, beshenka",
 
-    "configurations": [
-        {
-            "name": "SDL",
-            "targetType": "executable",
-            "libs": ["SDL2", "SDL2_image"],
-            "versions": ["SDLFrontend", "SDL_Image"],
+    "libs": ["SDL2", "SDL2_image"],
+    "versions": ["SDL_Image"],
 
-            "dependencies": {
-                "bindbc-sdl": "~>1.0.1"
-            },
-            "subConfigurations": {
-                "bindbc-sdl": "static"
-            }
-        },
-        {
-            "name": "ncurses",
-            "targetType": "executable",
-            "libs": ["ncurses"],
-            "versions": ["NcursesFrontend"],
+    "dependencies": {
+        "bindbc-sdl": "~>1.0.1"
+    },
 
-            "dependencies": {
-                "ncurses": "~>0.0.149"
-            },
-
-            "subConfigurations": {
-                "ncurses": "full"
-            }
-        }
-    ]
+    "subConfigurations": {
+        "bindbc-sdl": "static"
+    }
 }
