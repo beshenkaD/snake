@@ -1,2 +1,2 @@
 # snake
-Simple snake game written in ncurses and SDL.
+Simple snake game written in D with SDL.
