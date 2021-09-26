@@ -23,29 +23,29 @@ class Engine
     {
         private int w;
         private int h;
-        private Tile[][] tiles;
+        private Tile*[][] tiles;
 
         this(int w, int h)
         {
             this.w = w;
             this.h = h;
 
-            this.tiles = new Tile[][](w, h);
+            this.tiles = new Tile*[][](w, h);
         }
 
-        Tile getTile(int x, int y)
+        Tile* getTile(int x, int y)
         {
             return this.tiles[x][y];
         }
 
-        void addTile(int x, int y, ref Tile o)
+        void addTile(int x, int y, Tile* o)
         {
             this.tiles[x][y] = o;
         }
 
         void removeTile(int x, int y)
         {
-            this.tiles[x][y] = Tile(null);
+            this.tiles[x][y] = null;
         }
     }
 
@@ -86,7 +86,7 @@ class Engine
             SDL_Quit();
         }
 
-        private void blit(int x, int y, ref Tile t)
+        private void blit(int x, int y, Tile* t)
         {
             SDL_Rect dest;
             dest.x = x * tileSize;
@@ -113,7 +113,7 @@ class Engine
                 {
                     auto t = map.tiles[x][y];
 
-                    if (t.isEmpty())
+                    if (t == null)
                         continue;
 
                     blit(x, y, t);
@@ -175,8 +175,6 @@ class Engine
             }
         }
 
-        private bool repeatDisabled;
-
         private void updateKeyboard()
         {
             // TODO: this looks like a dirty hack.
@@ -229,11 +227,6 @@ class Engine
             }
         }
 
-        public void disableRepeat()
-        {
-            this.repeatDisabled = true;
-        }
-
         public bool isPressed(InputType i)
         {
             updateKeyboard();
@@ -247,9 +240,9 @@ class Engine
 
     public Input input;
 
-    Tile loadTile(string filepath)
+    Tile* loadTile(string filepath)
     {
-        return Tile(render.loadTexture(filepath));
+        return new Tile(render.loadTexture(filepath));
     }
 
     void createMap(int width, int height)

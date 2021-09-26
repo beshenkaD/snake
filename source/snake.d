@@ -22,7 +22,7 @@ class Game
         border,
     }
 
-    engine.Tile[int] objs;
+    engine.Tile*[int] objs;
 
     this()
     {
@@ -69,27 +69,26 @@ class Game
     private class Snake
     {
         private Direction dir;
+        private Position head;
+        private Position headPrev;
         private Position[] snake;
 
         this()
         {
             dir = Direction.up;
 
-            snake = new Position[](1);
-            snake[0] = Position(width / 2, height / 2);
-            this.grow();
-
-            this.swap();
+            head = Position(width / 2, height / 2);
+            snake ~= head;
         }
 
         Position getHeadPosition()
         {
-            return Position(snake[0].x, snake[0].y);
+            return head;
         }
 
         bool isTail(Position p)
         {
-            foreach (immutable e; snake[2 .. $])
+            foreach (immutable e; snake)
             {
                 if (e == p)
                     return true;
@@ -100,13 +99,15 @@ class Game
 
         private void swap()
         {
-            int prevX = snake[0].x;
-            int prevY = snake[0].y;
+            import std.stdio;
+
+            int prevX = headPrev.x;
+            int prevY = headPrev.y;
 
             int tmpX = 0;
             int tmpY = 0;
 
-            foreach (ref e; snake[1 .. $])
+            foreach (ref e; snake)
             {
                 tmpX = e.x;
                 tmpY = e.y;
@@ -119,17 +120,31 @@ class Game
                 removeObject(prevX, prevY);
             }
 
-            setObject(snake[0], Obj.snakeHead);
+            setObject(head, Obj.snakeHead);
         }
 
         void grow()
         {
             auto e = snake[$ - 1];
 
-            if (dir == Direction.right || dir == Direction.left)
+            // prevent new segment spawn in snake's head
+            switch (dir)
+            {
+            case Direction.right:
+                e.x--;
+                break;
+            case Direction.left:
                 e.x++;
-            else
+                break;
+            case Direction.up:
                 e.y++;
+                break;
+            case Direction.down:
+                e.y--;
+                break;
+            default:
+                assert(0);
+            }
 
             snake ~= e;
 
@@ -157,27 +172,46 @@ class Game
             this.dir = d;
         }
 
+        private int walkCooldown = 0;
+        private int walkDelay = 100;
+        private int speed = 15;
+
+        void increaseSpeed(int value)
+        {
+            this.speed += value;
+        }
+
         void move()
         {
-            switch (dir)
-            {
-            case Direction.up:
-                snake[0].y--;
-                break;
-            case Direction.down:
-                snake[0].y++;
-                break;
-            case Direction.left:
-                snake[0].x--;
-                break;
-            case Direction.right:
-                snake[0].x++;
-                break;
-            default:
-                assert(0);
-            }
+            walkCooldown -= speed;
 
-            swap();
+            if (walkCooldown <= 0)
+            {
+                headPrev = head;
+                switch (dir)
+                {
+                case Direction.up:
+                    head.y--;
+                    walkCooldown = walkDelay;
+                    break;
+                case Direction.down:
+                    head.y++;
+                    walkCooldown = walkDelay;
+                    break;
+                case Direction.left:
+                    head.x--;
+                    walkCooldown = walkDelay;
+                    break;
+                case Direction.right:
+                    head.x++;
+                    walkCooldown = walkDelay;
+                    break;
+                default:
+                    assert(0);
+                }
+
+                swap();
+            }
         }
     }
 
@@ -262,7 +296,6 @@ class Game
         auto fruit = new Fruit();
 
         auto gameOver = false;
-        auto delay = 120;
         auto score = 0;
 
         while (!gameOver)
@@ -296,11 +329,11 @@ class Game
 
                 score++;
 
-                if ((delay - 1) != 0 && score % 5 == 0)
-                    delay--;
+                if (score % 5 == 0)
+                    snake.increaseSpeed(1);
             }
 
-            engine.render.delay(delay);
+            engine.render.delay(16);
         }
 
         import std.file;
