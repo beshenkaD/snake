@@ -7,14 +7,22 @@
 	],
 	"copyright": "Copyright © 2021, beshenka",
 
-    "libs": ["SDL2", "SDL2_image"],
-    "versions": ["SDL_Image"],
-
     "dependencies": {
         "bindbc-sdl": "~>1.0.1"
     },
 
     "subConfigurations": {
         "bindbc-sdl": "static"
-    }
+    },
+
+    "libs": ["SDL2", "SDL2_image"],
+    "versions": ["SDL_Image"],
+
+    "configurations": [
+        {
+            "name": "static",
+            "targetType": "executable",
+            "dflags-ldc": ["-static"]
+        }
+    ]
 }
