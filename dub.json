@@ -15,8 +15,8 @@
         "bindbc-sdl": "static"
     },
 
-    "libs": ["SDL2", "SDL2_image"],
-    "versions": ["SDL_Image"],
+    "libs": ["SDL2", "SDL2_image", "SDL2_ttf"],
+    "versions": ["SDL_Image", "SDL_TTF"],
 
     "configurations": [
         {

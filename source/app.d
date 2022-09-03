@@ -4,5 +4,5 @@ import snake;
 
 void main()
 {
-    new Game().play();
+    new Game().start();
 }
