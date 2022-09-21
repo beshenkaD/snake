@@ -1,11 +1,11 @@
 module snake.difficulty;
 
-enum DifficultyLevel
+enum DifficultyLevel : int
 {
-    easy,
-    medium,
-    hard,
-    impossible,
+    easy = 0,
+    medium = 1,
+    hard = 2,
+    impossible = 3,
 }
 
 struct Difficulty

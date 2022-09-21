@@ -1,0 +1,5 @@
+size = 50
+
+# easy, medium, hard, impossible
+#  0      1       2       3
+difficulty = 3

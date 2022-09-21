@@ -3,6 +3,7 @@
 	"versions": {
 		"bindbc-loader": "1.0.1",
 		"bindbc-sdl": "1.0.1",
-		"ncurses": "0.0.149"
+		"ncurses": "0.0.149",
+		"toml": "1.0.0-rc.3"
 	}
 }

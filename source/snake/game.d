@@ -10,14 +10,21 @@ final class Game : Engine
 {
 public:
     uint width, heigth;
-    private uint fieldHeight, fieldWidth;
 
-    this(uint tileSize = 16)
+    // Header size in tiles
+    uint headerSize = 2;
+    SDL_Rect mapRect;
+
+    this(uint size = 40, DifficultyLevel difficultyLevel = DifficultyLevel.medium, uint tileSize = 16)
     {
-        this.width = this.heigth = 40;
+        this.width = this.heigth = size;
 
-        this.fieldHeight = heigth - 2;
-        this.fieldWidth = width;
+        this.mapRect.x = 0;
+        this.mapRect.y = headerSize;
+        this.mapRect.w = width;
+        this.mapRect.h = heigth;
+
+        this.difficulty = Difficulty(difficultyLevel);
 
         super(width * tileSize, heigth * tileSize, tileSize, "snake");
     }
@@ -59,8 +66,6 @@ public:
                 snake.setDirection(right);
         }
 
-        snake.move();
-
         if (snake.isTail(snake.head) || !isInMap(snake.head))
             this.quit();
 
@@ -73,6 +78,8 @@ public:
             if (score % difficulty.speedFactor == 0)
                 snake.speed += difficulty.speedStep;
         }
+
+        snake.move();
 
         render();
     }
@@ -91,7 +98,7 @@ public:
 
 private:
     uint score = 0;
-    Difficulty difficulty = Difficulty(DifficultyLevel.impossible);
+    Difficulty difficulty;
 
     Snake snake;
     Fruit fruit;
@@ -104,8 +111,8 @@ private:
 
         do
         {
-            x = uniform!"[)"(width - fieldWidth, fieldWidth);
-            y = uniform!"[)"(heigth - fieldHeight, fieldHeight);
+            x = uniform!"[)"(mapRect.x, mapRect.w);
+            y = uniform!"[)"(mapRect.y, mapRect.h);
         }
         while (snake.isTail(Point(x, y)));
 
@@ -114,7 +121,7 @@ private:
 
     bool isInMap(Point p)
     {
-        return p.x <= fieldWidth && p.y <= fieldHeight && p.x >= width - fieldWidth && p.y >= heigth - fieldHeight;
+        return p.x >= mapRect.x && p.x < mapRect.w && p.y >= mapRect.y && p.y < mapRect.h;
     }
 
     // TODO: make texture bank
@@ -145,7 +152,7 @@ private:
     void renderBorder()
     {
         foreach (x; 0 .. width)
-            foreach (y; 0 .. heigth - fieldHeight)
+            foreach (y; 0 .. headerSize)
                 renderer.blit(x, y, borderTexture);
     }
 }
